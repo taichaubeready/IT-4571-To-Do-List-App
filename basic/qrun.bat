@@ -1,0 +1,1 @@
+php yii queue/run -v
