@@ -34,7 +34,7 @@ AppAsset::register($this);
 
         <!-- Counts Todos -->
         <div class="">
-            <h1>
+            <h1 class="text-lg font-bold">
                 To Dos: <span x-text="todos.length"></span> |
                 Completed: <span x-text="todos.filter((todo) => todo.completed).length"></span>
             </h1>
@@ -44,7 +44,7 @@ AppAsset::register($this);
 
         <!-- Counts text Todos -->
         <div>
-            <h1>
+            <h1 class="text-lg font-bold">
                 <span x-text="todos.length"></span> <span x-text="message"></span>
             </h1>
         </div>
@@ -53,9 +53,11 @@ AppAsset::register($this);
 
         <!-- Foreach Loop Todos -->
         <template x-for="(todo, index) in todos">
-            <div class="bg-red-500 text-white p-2 mb-4 rounded-md w-1/2">
-                <input type="checkbox" x-model="todo.completed">
-                <span x-text="todo.name" :class="{ 'completed': todo.completed }"></span>
+            <div class="bg-red-500 text-white p-2 mb-4 rounded-md w-1/2 flex items-enter justify-between">
+                <div>
+                    <input type="checkbox" x-model="todo.completed">
+                    <span x-text="todo.name" :class="{ 'completed': todo.completed }"></span>
+                </div>
                 <button type="button" @click="todos = todos.filter((currTodo, todoIndex) => todoIndex !== index)"
                     class="delete text-white">Remove</button>
             </div>
