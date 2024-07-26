@@ -21,6 +21,7 @@ AppAsset::register($this);
 <body>
     <?php $this->beginBody() ?>
 
+    <!-- To Do List Application -->
     <div class="mb-5 box" x-data="{ 
     todos: $persist([]).as('todos_array'),
      userInput: '',
