@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.box {
+    @apply w-[500px] h-[100vh] m-5 border border-[#ffa400] p-5 rounded-xl;
+}
+
+.input {
+    @apply p-3 m-3 outline-none transition-all inline-block border border-[#ffa0] rounded-xl text-base font-semibold;
+}
+
+.btn {
+    @apply inline-block p-3 bg-[#6a5af9] rounded-2xl m-3 w-[150px] transition ease-in-out delay-150 hover:scale-110
+    text-white;
+}
+
+.delete:hover {
+    cursor: pointer;
+}
+
+.completed {
+    text-decoration: line-through;
+}
