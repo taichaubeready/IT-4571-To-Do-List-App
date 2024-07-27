@@ -1,0 +1,1 @@
+php yii seeder-custom-user/seeder-ct-user
