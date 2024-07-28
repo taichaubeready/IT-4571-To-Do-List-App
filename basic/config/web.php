@@ -8,6 +8,7 @@ $mail_password = $_ENV['MAIL_PASSWORD'];
 
 $config = [
     'id' => 'basic',
+    'name' => 'Nhat Tai Yii2.0',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'queue'],
     'aliases' => [
@@ -31,7 +32,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\CustomUser',
+            'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
