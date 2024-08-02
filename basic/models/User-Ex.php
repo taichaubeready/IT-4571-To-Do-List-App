@@ -11,13 +11,12 @@ use yii\web\IdentityInterface;
  *
  * @property int $id
  * @property string $username
- * @property string $email
- * @property string $fullname
- * @property string $password
- * @property string $password_hash
- * @property string|null $password_reset_token
  * @property string $auth_key
  * @property string|null $verification_token
+ * @property string $password_hash
+ * @property string|null $password_reset_token
+ * @property string $email
+ * @property string $fullname
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
@@ -52,9 +51,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'email', 'fullname', 'password', 'password_hash', 'auth_key'], 'required'],
+            [['username', 'auth_key', 'password_hash', 'email', 'fullname'], 'required'],
             [['status', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'email', 'fullname', 'password', 'password_hash', 'password_reset_token', 'verification_token'], 'string', 'max' => 255],
+            [['username', 'verification_token', 'password_hash', 'password_reset_token', 'email', 'fullname'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
             [['email'], 'unique'],
@@ -73,13 +72,12 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return [
             'id' => 'ID',
             'username' => 'Username',
-            'email' => 'Email',
-            'fullname' => 'Fullname',
-            'password' => 'Password',
-            'password_hash' => 'Password Hash',
-            'password_reset_token' => 'Password Reset Token',
             'auth_key' => 'Auth Key',
             'verification_token' => 'Verification Token',
+            'password_hash' => 'Password Hash',
+            'password_reset_token' => 'Password Reset Token',
+            'email' => 'Email',
+            'fullname' => 'Fullname',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
