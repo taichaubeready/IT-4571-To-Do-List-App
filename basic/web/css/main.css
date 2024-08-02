@@ -7,7 +7,7 @@
 }
 
 .input {
-    @apply p-3 m-3 outline-none transition-all inline-block border border-[#ffa0] rounded-xl text-base font-semibold;
+    @apply p-3 m-3 outline-none transition-all inline-block border border-[#ffa400] rounded-xl text-base font-semibold;
 }
 
 .btn {
@@ -21,4 +21,8 @@
 
 .completed {
     text-decoration: line-through;
+}
+
+.image {
+    @apply w-[100px] h-[100px] object-cover;
 }

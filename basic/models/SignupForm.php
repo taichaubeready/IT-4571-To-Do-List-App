@@ -76,7 +76,7 @@ class SignupForm extends Model
         if ($this->password === $this->re_password) {
             return $user->save();
         }
-        // return false;
+        return false;
 
         // return $user->save();
     }

@@ -17,7 +17,7 @@ return [
     'dsn' => 'mysql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port . '',
     'username' => $username,
     'password' => $password,
-    'charset' => 'utf8',
+    'charset' => 'utf8mb4',
 
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,
