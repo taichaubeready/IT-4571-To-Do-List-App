@@ -23,7 +23,7 @@ $user_email = User::find()->where(['id' => $user_id])->one()->email;
         <div class="col-lg-5">
 
             <!-- The Table  -->
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mb-5">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -55,6 +55,8 @@ $user_email = User::find()->where(['id' => $user_id])->one()->email;
                 </table>
             </div>
 
+            <!-- Button Upload Image -->
+            <?= Html::a('Upload Image', ['/user-photos/create'] ,['class' => 'a-link']) ?>
 
         </div>
     </div>

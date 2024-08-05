@@ -9,6 +9,7 @@ use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
+use yii\models\User;
 
 AppAsset::register($this);
 
@@ -50,14 +51,24 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     'items' => [
                         ['label' => 'Create User', 'url' => ['/user/create']],
                         ['label' => 'List User', 'url' => ['/user/index']],
-                    ]
+                    ],
+                    'visible' => !Yii::$app->user->isGuest,
                 ],
+                // [
+                //     'label' => 'User Images CRUD',
+                //     'items' => [
+                //         ['label' => 'Create User Images', 'url' => ['/user-images/create']],
+                //         ['label' => 'List User Images', 'url' => ['/user-images/index']],
+                //     ],
+                //     'visible' => !Yii::$app->user->isGuest,
+                // ],
                 [
-                    'label' => 'User Images CRUD',
+                    'label' => 'User Photos CRUD',
                     'items' => [
-                        ['label' => 'Create User Images', 'url' => ['/user-images/create']],
-                        ['label' => 'List User Images', 'url' => ['/user-images/index']],
-                    ]
+                        ['label' => 'Create User Photos', 'url' => ['/user-photos/create']],
+                        ['label' => 'List User Photos', 'url' => ['/user-photos/index']],
+                    ],
+                    'visible' => !Yii::$app->user->isGuest,
                 ],
                 Yii::$app->user->isGuest
                 ? ['label' => 'Login', 'url' => ['/site/login']]
