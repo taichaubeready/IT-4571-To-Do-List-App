@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\User;
 
 /** @var yii\web\View $this */
 /** @var app\models\UserPhotos $model */
@@ -52,9 +53,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                 $html = '';
                 $images = json_decode($model->photos, true);
+                $user_id = $model->user_id;
+                $user_name = User::find()->where(['id' => $user_id])->one()->username;
                 foreach ($images as $image) {
                     //here your stuff
-                    $path = Yii::getAlias('@web/user_photos/') . $model->user_id . '/uploads' . '/' . $image;
+                    $path = Yii::getAlias('@web/user_photos/') . $user_name . '/uploads' . '/' . $image;
 
                     $html .= Html::img($path, ['width' => '100px', 'height' => '100px', 'class' => 'image' ]) . "<br>";
                 }

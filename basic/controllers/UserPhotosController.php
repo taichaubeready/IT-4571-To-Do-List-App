@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use Yii;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
+use app\models\User;
 
 use WebPConvert\WebPConvert;
 
@@ -74,52 +75,51 @@ class UserPhotosController extends Controller
     {
 
         $model = new UserPhotos();
-        // $user_id = UserPhotos::findOne(['user_id' => Yii::$app->user->id]);
-        $user_id = UserPhotos::find()->where(['user_id' => Yii::$app->user->id])->exists();
-        if (!$user_id) {
+       
+        if ($this->request->isPost) {
+            if (
+                $model->load($this->request->post())
+            ) {
 
-            if ($this->request->isPost) {
-                if (
-                    $model->load($this->request->post())
-                ) {
+                $user_id = $model->user_id;
+                $user_name = User::find()->where(['id' => $user_id])->one()->username;
 
-                    $data_files = []; // Array Data Files
+                $data_files = []; // Array Data Files
 
-                    // Using File Helper to create folder
-                    $path = Yii::getAlias('@webroot/user_photos/') . $model->user_id . '/uploads';
-                    FileHelper::createDirectory($path);
+                // Using File Helper to create folder
+                $path = Yii::getAlias('@webroot/user_photos/') . $user_name . '/uploads';
+                FileHelper::createDirectory($path);
 
-                    $model->photos = UploadedFile::getInstances($model, 'photos');
+                $model->photos = UploadedFile::getInstances($model, 'photos');
 
-                    // Multiple files use foreach
-                    foreach ($model->photos as $key => $files) {
-                        # code...
-                        $files_name = Yii::$app->security->generateRandomString(16);
-                        $files->saveAs($path . '/' . $files_name . '.' . $files->extension); // Save in folder uploads
-                        $data_files[$key] = $files_name . '.' . $files->extension;
+                // Multiple files use foreach
+                foreach ($model->photos as $key => $files) {
+                    # code...
+                    $files_name = Yii::$app->security->generateRandomString(16);
+                    $files->saveAs($path . '/' . $files_name . '.' . $files->extension); // Save in folder uploads
+                    $data_files[$key] = $files_name . '.' . $files->extension;
 
-                        // Convert JPG, PNG to Webp
-                        $source = $path . '/' . $files_name . '.' . $files->extension;
-                        $destination = $path . '/' . 'webp/' . $files_name . '.webp';
-                        $options = [];
-                        WebPConvert::convert($source, $destination, $options);
-                    }
-
-                    $model->photos = json_encode($data_files); // Save in DB
-
-                    // $model->save();
-
-                    if ($model->save()) {
-                        Yii::$app->session->setFlash('success', "User Photos created successfully."); 
-                    } else {
-                        Yii::$app->session->setFlash('error', "User Photos not saved.");
-                    }
-
-                    return $this->redirect(['view', 'id' => $model->id]);
+                    // Convert JPG, PNG to Webp
+                    $source = $path . '/' . $files_name . '.' . $files->extension;
+                    $destination = $path . '/' . 'webp/' . $files_name . '.webp';
+                    $options = [];
+                    WebPConvert::convert($source, $destination, $options);
                 }
-            } else {
-                $model->loadDefaultValues();
+
+                $model->photos = json_encode($data_files); // Save in DB
+
+                // $model->save();
+
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', "User Photos created successfully.");
+                } else {
+                    Yii::$app->session->setFlash('error', "User Photos not saved.");
+                }
+
+                return $this->redirect(['view', 'id' => $model->id]);
             }
+        } else {
+            $model->loadDefaultValues();
         }
 
         return $this->render('create', [
@@ -138,12 +138,15 @@ class UserPhotosController extends Controller
     {
         $model = $this->findModel($id);
 
+        $user_id = $model->user_id;
+        $user_name = User::find()->where(['id' => $user_id])->one()->username;
+
         if ($this->request->isPost && $model->load($this->request->post())) {
 
             $data_files = []; // Array Data Files
 
             // Using File Helper to create folder
-            $path = Yii::getAlias('@webroot/user_photos/') . $model->user_id . '/uploads';
+            $path = Yii::getAlias('@webroot/user_photos/') . $user_name . '/uploads';
             FileHelper::createDirectory($path);
 
             $model->photos = UploadedFile::getInstances($model, 'photos');
@@ -167,7 +170,7 @@ class UserPhotosController extends Controller
             // $model->save();
 
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', "User Photos created successfully."); 
+                Yii::$app->session->setFlash('success', "User Photos created successfully.");
             } else {
                 Yii::$app->session->setFlash('error', "User Photos not saved.");
             }

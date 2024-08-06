@@ -17,8 +17,6 @@ use yii\widgets\ActiveForm;
             reader.readAsDataURL(this.$refs.image.files[0])
         }
      }">
-    <?= Yii::$app->user->id ?>
-
 
     <?php $form = ActiveForm::begin([
         'options' => [

@@ -24,7 +24,7 @@
 }
 
 .image {
-    @apply w-[100px] h-[100px] object-cover flex items-center justify-center m-auto p-auto;
+    @apply w-[100px] h-[100px] object-cover flex items-center justify-center m-auto;
 }
 
 .a-link {
