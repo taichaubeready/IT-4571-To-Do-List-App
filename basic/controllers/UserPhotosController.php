@@ -11,8 +11,8 @@ use Yii;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 use app\models\User;
-
 use WebPConvert\WebPConvert;
+use app\jobs\UploadPhotosJob;
 
 /**
  * UserPhotosController implements the CRUD actions for UserPhotos model.
@@ -108,13 +108,17 @@ class UserPhotosController extends Controller
 
                 $model->photos = json_encode($data_files); // Save in DB
 
-                // $model->save();
+                // // $model->save();
 
                 if ($model->save()) {
                     Yii::$app->session->setFlash('success', "User Photos created successfully.");
                 } else {
                     Yii::$app->session->setFlash('error', "User Photos not saved.");
                 }
+
+                // Yii::$app->queue->push(new UploadPhotosJob([
+                //     'model' => $model
+                // ]));
 
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -138,10 +142,10 @@ class UserPhotosController extends Controller
     {
         $model = $this->findModel($id);
 
-        $user_id = $model->user_id;
-        $user_name = User::find()->where(['id' => $user_id])->one()->username;
-
         if ($this->request->isPost && $model->load($this->request->post())) {
+
+            $user_id = $model->user_id;
+            $user_name = User::find()->where(['id' => $user_id])->one()->username;
 
             $data_files = []; // Array Data Files
 

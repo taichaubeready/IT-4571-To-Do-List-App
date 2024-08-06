@@ -25,6 +25,14 @@ $config = [
             'mutex' => \yii\mutex\MysqlMutex::class, // Mutex used to sync queries
             'as log' => \yii\queue\LogBehavior::class,
         ],
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'migrationPath' => null,
+            'migrationNamespaces' => [
+                // ...
+                'yii\queue\db\migrations',
+            ],
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -47,15 +55,15 @@ $config = [
                 'password' => $mail_password,
                 'port' => 465,
             ],
-
-            'urlManager' => [
-                'enablePrettyUrl' => true,
-                'showScriptName' => false,
-                'rules' => [
-                    'lien-he' => 'site/contact',
-                ],
-            ],
+            'viewPath' => '@app/mail',
+            // send all mails to a file by default.
+            'useFileTransport' => false,
         ],
+
+        'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            'scriptUrl' => 'http://myurl'
+        ]
     ],
     'params' => $params,
     /*

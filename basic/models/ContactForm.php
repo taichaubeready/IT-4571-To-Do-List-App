@@ -2,8 +2,10 @@
 
 namespace app\models;
 
+use app\jobs\SendMailJob;
 use Yii;
 use yii\base\Model;
+use app\models\Contact;
 
 /**
  * ContactForm is the model behind the contact form.
@@ -61,5 +63,30 @@ class ContactForm extends Model
             return true;
         }
         return false;
+    }
+
+    /**
+     * Function sendMail
+     * @param mixed $email
+     * @return void
+     */
+    public function sendMail($email){
+        Yii::$app->queue->push(new SendMailJob([
+            'email' => $email
+        ]));
+    }
+
+    /**
+     * Function insert data to contact table
+     * @return void
+     */
+    public function insert()
+    {
+        $model = new Contact();
+        $model->name = $this->name;
+        $model->email = $this->email;
+        $model->subject = $this->subject;
+        $model->body = $this->body;
+        $model->save();
     }
 }

@@ -113,6 +113,11 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             Yii::$app->session->setFlash('contactFormSubmitted');
 
+            // Save data of model to contact table
+            $model->insert();
+
+            $model->sendMail($model->email);
+
             return $this->refresh();
         }
         return $this->render('contact', [

@@ -12,7 +12,7 @@ use yii\captcha\Captcha;
 $this->title = 'Sign Up';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-signup my-5">
+<div class="site-signup my-5 py-5">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please fill out the following fields to sign up:</p>
