@@ -22,7 +22,7 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
 
     <!-- To Do List Application -->
-    <div class="mb-5 box" x-data="{ 
+    <div class="mb-5 mx-auto box" x-data="{ 
     todos: $persist([]).as('todos_array'),
      userInput: '',
       message: '',

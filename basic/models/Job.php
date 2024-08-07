@@ -3,25 +3,39 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
- * This is the model class for table "user_photos".
+ * This is the model class for table "job".
  *
  * @property int $id
- * @property string $photos
+ * @property string $action
  * @property int $user_id
+ * @property string $status
  * @property int $is_deleted
+ * @property int $created_at
+ * @property int $updated_at
  *
  * @property User $user
  */
-class UserPhotos extends \yii\db\ActiveRecord
+class Job extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'user_photos';
+        return 'job';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::class,
+        ];
     }
 
     /**
@@ -30,19 +44,11 @@ class UserPhotos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['photos', 'user_id'], 'required'],
-            [['user_id', 'is_deleted'], 'integer'],
-            [['photos'], 'string', 'max' => 255],
+            [['action', 'user_id', 'status'], 'required'],
+            [['user_id', 'is_deleted', 'created_at', 'updated_at'], 'integer'],
+            [['action', 'status'], 'string', 'max' => 255],
+            [['user_id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
-
-            [
-                ['photos'],
-                'file',
-                'extensions' => 'jpg, png, webp',
-                'skipOnEmpty' => false,
-                'maxFiles' => 4,
-                'maxSize' => 1024 * 1024 * 2,
-            ],
         ];
     }
 
@@ -53,8 +59,12 @@ class UserPhotos extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'photos' => 'Photos',
+            'action' => 'Action',
             'user_id' => 'User ID',
+            'status' => 'Status',
+            'is_deleted' => 'Is Deleted',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 

@@ -4,12 +4,13 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\UserPhotos;
+use app\models\Job;
+use Yii;
 
 /**
- * UserPhotosSearch represents the model behind the search form of `app\models\UserPhotos`.
+ * JobSearch represents the model behind the search form of `app\models\Job`.
  */
-class UserPhotosSearch extends UserPhotos
+class JobSearch extends Job
 {
     /**
      * {@inheritdoc}
@@ -17,8 +18,8 @@ class UserPhotosSearch extends UserPhotos
     public function rules()
     {
         return [
-            [['id', 'user_id'], 'integer'],
-            [['photos'], 'safe'],
+            [['id', 'user_id', 'is_deleted', 'created_at'], 'integer'],
+            [['action', 'status'], 'safe'],
         ];
     }
 
@@ -40,7 +41,7 @@ class UserPhotosSearch extends UserPhotos
      */
     public function search($params)
     {
-        $query = UserPhotos::find();
+        $query = Job::find();
 
         // add conditions that should always apply here
 
@@ -59,11 +60,15 @@ class UserPhotosSearch extends UserPhotos
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'is_deleted' => 0,
+            // 'user_id' => $this->user_id,
+            'user_id' => Yii::$app->user->id,
+            // 'is_deleted' => $this->is_deleted,
+            // 'is_deleted' => 0,
+            'created_at' => $this->created_at,
         ]);
 
-        $query->andFilterWhere(['like', 'photos', $this->photos]);
+        $query->andFilterWhere(['like', 'action', $this->action])
+            ->andFilterWhere(['like', 'status', $this->status]);
 
         return $dataProvider;
     }

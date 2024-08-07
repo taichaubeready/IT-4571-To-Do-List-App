@@ -3,12 +3,12 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%user_photos}}`.
+ * Handles the creation of table `{{%job}}`.
  * Has foreign keys to the tables:
  *
  * - `{{%user}}`
  */
-class m240805_093112_create_user_photos_table extends Migration
+class m240807_151522_create_job_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -16,24 +16,27 @@ class m240805_093112_create_user_photos_table extends Migration
     public function safeUp()
     {
         $tableOptions = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE=InnoDB';
-        $this->createTable('{{%user_photos}}', [
+        $this->createTable('{{%job}}', [
             'id' => $this->primaryKey(),
-            'photos' => $this->string()->notNull(),
+            'action' => $this->string()->notNull(),
             'user_id' => $this->integer()->notNull()->unique(),
+            'status' => $this->string()->notNull(),
             'is_deleted' => $this->smallInteger()->notNull()->defaultValue(0),
+            'created_at' => $this->integer()->notNull(),
+            'updated_at' => $this->integer()->notNull(),
         ], $tableOptions);
 
         // creates index for column `user_id`
         $this->createIndex(
-            '{{%idx-user_photos-user_id}}',
-            '{{%user_photos}}',
+            '{{%idx-job-user_id}}',
+            '{{%job}}',
             'user_id'
         );
 
         // add foreign key for table `{{%user}}`
         $this->addForeignKey(
-            '{{%fk-user_photos-user_id}}',
-            '{{%user_photos}}',
+            '{{%fk-job-user_id}}',
+            '{{%job}}',
             'user_id',
             '{{%user}}',
             'id',
@@ -48,16 +51,16 @@ class m240805_093112_create_user_photos_table extends Migration
     {
         // drops foreign key for table `{{%user}}`
         $this->dropForeignKey(
-            '{{%fk-user_photos-user_id}}',
-            '{{%user_photos}}'
+            '{{%fk-job-user_id}}',
+            '{{%job}}'
         );
 
         // drops index for column `user_id`
         $this->dropIndex(
-            '{{%idx-user_photos-user_id}}',
-            '{{%user_photos}}'
+            '{{%idx-job-user_id}}',
+            '{{%job}}'
         );
 
-        $this->dropTable('{{%user_photos}}');
+        $this->dropTable('{{%job}}');
     }
 }

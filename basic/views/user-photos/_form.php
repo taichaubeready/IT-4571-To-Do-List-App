@@ -8,6 +8,14 @@ use yii\widgets\ActiveForm;
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
+<?php if (Yii::$app->session->hasFlash('error')): ?>
+    <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)"
+        class="alert alert-danger alert-dismissable">
+        <h4><i class="icon fa fa-check"></i>Not Saved!</h4>
+        <?= Yii::$app->session->getFlash('error'); ?>
+    </div>
+<?php endif; ?>
+
 <div class="user-photos-form my-5 py-5" x-data="{ 
         imagePreview: null,
         previewImage() {

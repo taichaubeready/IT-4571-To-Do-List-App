@@ -2,6 +2,7 @@
 /** @var yii\web\View $this */
 /** @var string $content */
 use app\assets\AppAsset;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -25,9 +26,8 @@ AppAsset::register($this);
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12" x-data="{ header: 'Header' }">
-                <h1 class="text-red-600" x-text="header">
-
-                </h1>
+                <h1 class="text-red-600" x-text="header"></h1>
+                <a class="btn" href="<?= Url::to('http://tai.chau.localhost:8000/site/index') ?>">Index Page</a>
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@ AppAsset::register($this);
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h1>
+                <h1 class="px-[30vw]">
                     <?php echo $content ?>
                 </h1>
             </div>

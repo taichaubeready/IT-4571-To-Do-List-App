@@ -29,6 +29,8 @@ class SeederCustomUserController extends Controller
             $user->generateAuthKey();
             $user->generateEmailVerificationToken();
             $user->status = 10;
+            $user->created_at = time();
+            $user->updated_at = time();
             $sql = Yii::$app->db->createCommand()->insert('user', [
                 'id' => $user->id,
                 'username' => $user->username,
@@ -40,6 +42,8 @@ class SeederCustomUserController extends Controller
                 'auth_key' => $user->auth_key,
                 'verification_token' => $user->verification_token,
                 'status' => $user->status,
+                'created_at' => $user->created_at,
+                'updated_at' => $user->updated_at,
             ])->execute();
             echo ($i < 10) ? 'Inserted a New User Record 0' . $i . PHP_EOL : 'Inserted a New User Record ' . $i . PHP_EOL;
         }

@@ -12,7 +12,7 @@
 
 .btn {
     @apply inline-block p-3 bg-[#6a5af9] rounded-2xl m-3 w-[150px] transition ease-in-out delay-150 hover:scale-110
-    text-white;
+    text-white text-center;
 }
 
 .delete:hover {

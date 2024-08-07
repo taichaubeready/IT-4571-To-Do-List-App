@@ -17,20 +17,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php if (Yii::$app->session->hasFlash('success')): ?>
-        <div class="alert alert-success alert-dismissable">
-            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)" class="alert alert-success alert-dismissable">
             <h4><i class="icon fa fa-check"></i>Saved!</h4>
-            <?= Yii::$app->session->getFlash('success') ?>
+            <?= Yii::$app->session->getFlash('success'); ?>
         </div>
     <?php endif; ?>
 
-    <?php if (Yii::$app->session->hasFlash('error')): ?>
-        <div class="alert alert-danger alert-dismissable">
-            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-            <h4><i class="icon fa fa-check"></i>Saved!</h4>
-            <?= Yii::$app->session->getFlash('error') ?>
-        </div>
-    <?php endif; ?>
+
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>

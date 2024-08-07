@@ -45,6 +45,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 ['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'About', 'url' => ['/site/about']],
                 ['label' => 'Contact', 'url' => ['/site/contact']],
+                ['label' => 'App ToDoList', 'url' => ['/to-do-list/index']],
                 ['label' => 'Sign Up', 'url' => ['/site/signup']],
                 [
                     'label' => 'User CRUD',
@@ -54,19 +55,19 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     ],
                     'visible' => !Yii::$app->user->isGuest,
                 ],
-                // [
-                //     'label' => 'User Images CRUD',
-                //     'items' => [
-                //         ['label' => 'Create User Images', 'url' => ['/user-images/create']],
-                //         ['label' => 'List User Images', 'url' => ['/user-images/index']],
-                //     ],
-                //     'visible' => !Yii::$app->user->isGuest,
-                // ],
                 [
                     'label' => 'User Photos CRUD',
                     'items' => [
                         ['label' => 'Create User Photos', 'url' => ['/user-photos/create']],
                         ['label' => 'List User Photos', 'url' => ['/user-photos/index']],
+                    ],
+                    'visible' => !Yii::$app->user->isGuest,
+                ],
+                [
+                    'label' => 'User Job CRUD',
+                    'items' => [
+                        ['label' => 'Create Job User', 'url' => ['/job/create']],
+                        ['label' => 'List Job User', 'url' => ['/job/index']],
                     ],
                     'visible' => !Yii::$app->user->isGuest,
                 ],
