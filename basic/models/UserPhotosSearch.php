@@ -60,7 +60,7 @@ class UserPhotosSearch extends UserPhotos
         $query->andFilterWhere([
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'is_deleted' => 0,
+            'is_deleted' => 0, // chỉ hiển thị records chưa delete
         ]);
 
         $query->andFilterWhere(['like', 'photos', $this->photos]);

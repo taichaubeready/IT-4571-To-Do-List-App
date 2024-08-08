@@ -3,7 +3,6 @@
 namespace app\models;
 
 use Yii;
-use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "job".
@@ -32,23 +31,12 @@ class Job extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::class,
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
-            [['action', 'user_id', 'status'], 'required'],
+            [['action', 'user_id', 'status', 'created_at', 'updated_at'], 'required'],
             [['user_id', 'count_action', 'is_deleted', 'created_at', 'updated_at'], 'integer'],
             [['action', 'status'], 'string', 'max' => 255],
-            [['user_id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }

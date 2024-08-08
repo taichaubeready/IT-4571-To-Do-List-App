@@ -64,10 +64,10 @@ class UserPhotosController extends Controller
                 'is_deleted' => $is_deleted,
                 'created_at' => $created_at,
                 'updated_at' => $updated_at,
-            ])->execute();
+            ])->execute(); // Nếu chưa có job thì create new job
         } else {
             $sql_updateJob = Yii::$app->db->createCommand("UPDATE job SET count_action=count_action+1  WHERE action='{$action}'")->execute();
-        }
+        } // => nếu có job action rồi thì chỉ cập nhật lại count_action của job đó
 
         $searchModel = new UserPhotosSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -331,12 +331,12 @@ class UserPhotosController extends Controller
             ])->execute();
         } else {
             $sql_updateJob = Yii::$app->db->createCommand("UPDATE job SET count_action=count_action+1  WHERE action='{$action}'")->execute();
-        }
+        } // => Save Job of User
 
         // $this->findModel($id)->delete();
         $model = $this->findModel($id);
         $model->is_deleted = 1;
-        $model->save();
+        $model->save(); // => Soft Delete
 
         return $this->redirect(['index']);
     }
