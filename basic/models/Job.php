@@ -12,6 +12,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $action
  * @property int $user_id
  * @property string $status
+ * @property int $count_action
  * @property int $is_deleted
  * @property int $created_at
  * @property int $updated_at
@@ -45,7 +46,7 @@ class Job extends \yii\db\ActiveRecord
     {
         return [
             [['action', 'user_id', 'status'], 'required'],
-            [['user_id', 'is_deleted', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'count_action', 'is_deleted', 'created_at', 'updated_at'], 'integer'],
             [['action', 'status'], 'string', 'max' => 255],
             [['user_id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
@@ -62,6 +63,7 @@ class Job extends \yii\db\ActiveRecord
             'action' => 'Action',
             'user_id' => 'User ID',
             'status' => 'Status',
+            'count_action' => 'Count Action',
             'is_deleted' => 'Is Deleted',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

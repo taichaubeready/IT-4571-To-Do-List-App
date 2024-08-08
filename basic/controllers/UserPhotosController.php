@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use app\models\Job;
 use app\models\UserPhotos;
 use app\models\UserPhotosSearch;
 use yii\web\Controller;
@@ -13,7 +12,6 @@ use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 use app\models\User;
 use WebPConvert\WebPConvert;
-use app\jobs\UploadPhotosJob;
 
 /**
  * UserPhotosController implements the CRUD actions for UserPhotos model.
@@ -45,21 +43,31 @@ class UserPhotosController extends Controller
      */
     public function actionIndex()
     {
-        $action = "View List User Photos";
+        // Initialize Variables
+        $action = "List User Photos";
         $user_id = Yii::$app->user->id;
         $status = "Active";
+        $count_action = 1;
         $is_deleted = 0;
         $created_at = time();
         $updated_at = time();
 
-        $sql = Yii::$app->db->createCommand()->insert('job', [
-            'action' => $action,
-            'user_id' => $user_id,
-            'status' => $status,
-            'is_deleted' => $is_deleted,
-            'created_at' => $created_at,
-            'updated_at' => $updated_at,
-        ])->execute();
+        // Check user_id exits in job table migrate?
+        $sql_searchJobByAction = Yii::$app->db->createCommand("SELECT * FROM job WHERE action='{$action}'")->queryAll();
+
+        if (count($sql_searchJobByAction) == null) {
+            $sql_insertJob = Yii::$app->db->createCommand()->insert('job', [
+                'action' => $action,
+                'user_id' => $user_id,
+                'status' => $status,
+                'count_action' => $count_action,
+                'is_deleted' => $is_deleted,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at,
+            ])->execute();
+        } else {
+            $sql_updateJob = Yii::$app->db->createCommand("UPDATE job SET count_action=count_action+1  WHERE action='{$action}'")->execute();
+        }
 
         $searchModel = new UserPhotosSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -78,14 +86,31 @@ class UserPhotosController extends Controller
      */
     public function actionView($id)
     {
-        $job = new Job();
-        $job->action = "View Detail User Photos";
-        $job->user_id = Yii::$app->user->id;
-        $job->status = "Active";
-        $job->is_deleted = 0;
-        $job->created_at = time();
-        $job->updated_at = time();
-        $job->save();
+        // Initialize Variables
+        $action = "View Detail User Photos With UserPhoto_Id: " . $id;
+        $user_id = Yii::$app->user->id;
+        $status = "Active";
+        $count_action = 1;
+        $is_deleted = 0;
+        $created_at = time();
+        $updated_at = time();
+
+        // Check user_id exits in job table migrate?
+        $sql_searchJobByAction = Yii::$app->db->createCommand("SELECT * FROM job WHERE action='{$action}'")->queryAll();
+
+        if (count($sql_searchJobByAction) == null) {
+            $sql_insertJob = Yii::$app->db->createCommand()->insert('job', [
+                'action' => $action,
+                'user_id' => $user_id,
+                'status' => $status,
+                'count_action' => $count_action,
+                'is_deleted' => $is_deleted,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at,
+            ])->execute();
+        } else {
+            $sql_updateJob = Yii::$app->db->createCommand("UPDATE job SET count_action=count_action+1  WHERE action='{$action}'")->execute();
+        }
 
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -107,14 +132,31 @@ class UserPhotosController extends Controller
                 $model->load($this->request->post())
             ) {
 
-                $job = new Job();
-                $job->action = "Created User Photos with Id: " . $model->id;
-                $job->user_id = Yii::$app->user->id;
-                $job->status = "Active";
-                $job->is_deleted = 0;
-                $job->created_at = time();
-                $job->updated_at = time();
-                $job->save();
+                // Initialize Variables
+                $action = "Created User Photos";
+                $user_id = Yii::$app->user->id;
+                $status = "Active";
+                $count_action = 1;
+                $is_deleted = 0;
+                $created_at = time();
+                $updated_at = time();
+
+                // Check user_id exits in job table migrate?
+                $sql_searchJobByAction = Yii::$app->db->createCommand("SELECT * FROM job WHERE action='{$action}'")->queryAll();
+
+                if (count($sql_searchJobByAction) == null) {
+                    $sql_insertJob = Yii::$app->db->createCommand()->insert('job', [
+                        'action' => $action,
+                        'user_id' => $user_id,
+                        'status' => $status,
+                        'count_action' => $count_action,
+                        'is_deleted' => $is_deleted,
+                        'created_at' => $created_at,
+                        'updated_at' => $updated_at,
+                    ])->execute();
+                } else {
+                    $sql_updateJob = Yii::$app->db->createCommand("UPDATE job SET count_action=count_action+1  WHERE action='{$action}'")->execute();
+                }
 
                 $sql = Yii::$app->db->createCommand("SELECT * FROM user_photos where user_id='{$model->user_id}'")->queryAll();
 
@@ -179,14 +221,32 @@ class UserPhotosController extends Controller
 
         if ($this->request->isPost && $model->load($this->request->post())) {
 
-            $job = new Job();
-            $job->action = "Updated User Photos with Id: " . $model->id;
-            $job->user_id = Yii::$app->user->id;
-            $job->status = "Active";
-            $job->is_deleted = 0;
-            $job->created_at = time();
-            $job->updated_at = time();
-            $job->save();
+            // Initialize Variables
+            $action = "Updated User Photos With UserPhotos_Id: " . $id;
+            $user_id = Yii::$app->user->id;
+            $status = "Active";
+            $count_action = 1;
+            $is_deleted = 0;
+            $created_at = time();
+            $updated_at = time();
+
+            // Check user_id exits in job table migrate?
+            $sql_searchJobByAction = Yii::$app->db->createCommand("SELECT * FROM job WHERE action='{$action}'")->queryAll();
+
+            if (count($sql_searchJobByAction) == null) {
+                $sql_insertJob = Yii::$app->db->createCommand()->insert('job', [
+                    'action' => $action,
+                    'user_id' => $user_id,
+                    'status' => $status,
+                    'count_action' => $count_action,
+                    'is_deleted' => $is_deleted,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at,
+                ])->execute();
+            } else {
+                $sql_updateJob = Yii::$app->db->createCommand("UPDATE job SET count_action=count_action+1  WHERE action='{$action}'")->execute();
+            }
+
 
             $sql = Yii::$app->db->createCommand("SELECT * FROM user_photos where user_id='{$model->user_id}'")->queryAll();
 
@@ -247,14 +307,31 @@ class UserPhotosController extends Controller
      */
     public function actionDelete($id)
     {
-        $job = new Job();
-        $job->action = "Deleted User Photos with Id: " . $id;
-        $job->user_id = Yii::$app->user->id;
-        $job->status = "Active";
-        $job->is_deleted = 0;
-        $job->created_at = time();
-        $job->updated_at = time();
-        $job->save();
+        // Initialize Variables
+        $action = "Deleted User Photos With UserPhotos_Id: " . $id;
+        $user_id = Yii::$app->user->id;
+        $status = "Active";
+        $count_action = 1;
+        $is_deleted = 0;
+        $created_at = time();
+        $updated_at = time();
+
+        // Check user_id exits in job table migrate?
+        $sql_searchJobByAction = Yii::$app->db->createCommand("SELECT * FROM job WHERE action='{$action}'")->queryAll();
+
+        if (count($sql_searchJobByAction) == null) {
+            $sql_insertJob = Yii::$app->db->createCommand()->insert('job', [
+                'action' => $action,
+                'user_id' => $user_id,
+                'status' => $status,
+                'count_action' => $count_action,
+                'is_deleted' => $is_deleted,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at,
+            ])->execute();
+        } else {
+            $sql_updateJob = Yii::$app->db->createCommand("UPDATE job SET count_action=count_action+1  WHERE action='{$action}'")->execute();
+        }
 
         // $this->findModel($id)->delete();
         $model = $this->findModel($id);

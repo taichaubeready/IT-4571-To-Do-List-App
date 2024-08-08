@@ -18,7 +18,7 @@ class JobSearch extends Job
     public function rules()
     {
         return [
-            [['id', 'user_id', 'is_deleted', 'created_at'], 'integer'],
+            [['id', 'user_id', 'count_action', 'is_deleted', 'created_at'], 'integer'],
             [['action', 'status'], 'safe'],
         ];
     }
@@ -62,8 +62,9 @@ class JobSearch extends Job
             'id' => $this->id,
             // 'user_id' => $this->user_id,
             'user_id' => Yii::$app->user->id,
+            'count_action' => $this->count_action,
             // 'is_deleted' => $this->is_deleted,
-            // 'is_deleted' => 0,
+            'is_deleted' => 0,
             'created_at' => $this->created_at,
         ]);
 

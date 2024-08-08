@@ -19,8 +19,9 @@ class m240807_151522_create_job_table extends Migration
         $this->createTable('{{%job}}', [
             'id' => $this->primaryKey(),
             'action' => $this->string()->notNull(),
-            'user_id' => $this->integer()->notNull()->unique(),
+            'user_id' => $this->integer()->notNull(),
             'status' => $this->string()->notNull(),
+            'count_action' => $this->integer()->notNull()->defaultValue(0),
             'is_deleted' => $this->smallInteger()->notNull()->defaultValue(0),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
