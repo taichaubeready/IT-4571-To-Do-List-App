@@ -1,1 +1,1 @@
-C:\xampp\htdocs\IT-4571-To-Do-List-App\basic
+php yii seeder-custom-user/seeder-ct-user
