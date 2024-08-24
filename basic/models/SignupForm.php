@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use yii\db\Expression;
 
 /**
  * Signup form
@@ -72,7 +73,7 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         $user->created_at = time();
-        $user->update() = time();
+        $user->updated_at = time();
         
         // return $user->save() && $this->sendEmail($user);
         if ($this->password === $this->re_password) {
